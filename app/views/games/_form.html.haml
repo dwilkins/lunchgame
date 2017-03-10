@@ -1,0 +1,4 @@
+= simple_form_for @game, html: {class: 'form-horizontal'}, wrapper: :horizontal_form do |f|
+  = f.input :required_voter_count, class: 'numeric'
+  = f.input :number_of_selections, label: 'Selections per user'
+  = f.button :submit

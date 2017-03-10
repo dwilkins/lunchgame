@@ -1,0 +1,10 @@
+%h1 All games
+
+- if @games.any?
+  - @games.each do |game|
+    = link_to game.name,game
+- else
+  No games yet
+
+
+= link_to "New",new_game_path

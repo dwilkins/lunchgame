@@ -1,0 +1,29 @@
+.row
+  %h2.col-xs-12.text-center
+    Selection Round
+.row
+  .col-md-6.col-xs-12
+    - if @game.round_0_voters.any?
+      %h2
+        Round 0 Voters
+        = waiting_for_voters(@game)
+      %ul
+        - @game.round_0_voters.each do |voter|
+          %li
+            = voter.name
+            - votes_cast = voter.votes_cast(@game).count
+            %span.glyphicon.glyphicon-ok{title: pluralize(votes_cast,"vote") + " cast"}
+    - else
+      %h2
+        No Voters
+        = waiting_for_voters(@game)
+
+  .col-md-6.col-xs-12
+    - if @game.restaurants.any?
+      %h2 Restaurants
+      %ul
+        - @game.restaurants.each do |restaurant|
+          %li
+            = restaurant.name
+    - else
+      %h2 No selected restaurants (yet)

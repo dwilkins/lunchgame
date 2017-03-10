@@ -1,0 +1,36 @@
+.row
+  %h2.col-xs-12.text-center
+    Up-Voting Round
+.row
+  .col-md-6.col-xs-12
+    - if @game.round_2_voters.any?
+      %h2
+        Round 2 Voters
+        = waiting_for_voters(@game)
+      %ul
+        - @game.round_2_voters.each do |voter|
+          %li
+            = voter.name
+            - votes_cast = voter.votes_cast(@game).count
+            %span{title: pluralize(votes_cast,"vote") + " cast"}
+              (
+              = votes_cast
+              )
+    - else
+      %h2
+        No Voters
+        = waiting_for_voters(@game)
+
+  .col-md-6.col-xs-12
+    - if @game.available_selections.any?
+      %h2 Restaurants
+      %ul
+        - @game.available_selections.each do |restaurant|
+          %li
+            %span
+              = restaurant.name
+              - 1..restaurant.round_2_votes.count do |i|
+                %span.glyphicon.glyphicon-thumbs-up
+
+    - else
+      %h2 No restaurants - it's a draw

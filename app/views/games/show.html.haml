@@ -1,0 +1,37 @@
+%h1.text-center.clear-fix
+  Lunch Game for
+  = @game.name
+  Round
+  = @game.round
+%div.col-md-6.col-md-offset-3.clear-fix
+  - if current_user.can_vote?(@game)
+    = simple_form_for Restaurant.new,
+                      url: votes_path(game_id: @game.id,round: @game.round),
+                      html: {class: 'form-inline clearfix'},
+                      wrapper: :inline_form do |f|
+      .col-xs-8
+        = f.input :name,
+                  as: :select,
+                  collection: [],
+                  input_html: { style: 'width: 100%;', class: 'form-control select2', multiple: true },
+                  wrapper_html: { style: 'width: 100%;' }
+      .col-xs-4
+        = f.submit "Vote in Round #{@game.round}"
+  - elsif @game.voters.include?(current_user)
+    .text-center
+      You've cast the maximum number of votes in this round
+  - else
+    .text-center
+      You can't vote in this round
+%hr.col-xs-12
+= render partial: "round_#{@game.round}"
+
+:javascript
+  $( function() {
+  $('.select2').select2( {
+    tags: #{@game.available_selections.collect{|r| {id: r.id, text: r.name} }.to_json },
+    multiple: true,
+    theme: 'bootstrap',
+    maximumSelectionLength: #{@game.max_votes - current_user.votes_cast(@game).count}
+    });
+  });

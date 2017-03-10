@@ -1,0 +1,34 @@
+.row
+  %h2.col-xs-12.text-center
+    Elimination Round
+.row
+  .col-md-6.col-xs-12
+    - if @game.round_1_voters.any?
+      %h2
+        Round #{@game.round} Voters
+        = waiting_for_voters(@game)
+      %ul
+        - @game.round_1_voters.each do |voter|
+          %li
+            = voter.name
+    - else
+      %h2
+        No Voters
+        = waiting_for_voters(@game)
+
+  .col-md-6.col-xs-12
+    - selected_restaurants = @game.selected_restaurants
+    - eliminated_restaurants = @game.eliminated_restaurants
+    - if @game.selected_restaurants.any?
+      %h2 Selected Restaurants
+      %ul
+        - selected_restaurants.each do |restaurant|
+          %li
+            -# Realtime display of eliminated restaurants
+            -# - if(eliminated_restaurants.include?(restaurant))
+            -#   %s= restaurant.name
+            -# - else
+            -#   %span= restaurant.name
+            %span= restaurant.name
+    - else
+      %h2 No restaurants

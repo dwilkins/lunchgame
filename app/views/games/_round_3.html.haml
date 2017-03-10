@@ -1,0 +1,47 @@
+.row
+  %h2.col-xs-12.text-center
+    Final Results
+.row
+  .col-md-6.col-xs-12
+    - if @game.votes.any?
+      %h2 Voters
+      %ul
+        - @game.voters.each do |voter|
+          %li
+            = voter.name
+            %span.glyphicon.glyphicon-ok{title: pluralize(voter.votes_cast(@game,2).count,"vote") + " cast"}
+    - else
+      %h2 No Voters
+  .col-md-6.col-xs-12
+    - if @game.winning_restaurants.any?
+      %h2 Winning Restaurants
+      %ul
+        - @game.winning_restaurants.each do |restaurant|
+          %li
+            %span
+              = restaurant.name
+              - restaurant.round_2_votes.each do |v|
+                %span.glyphicon.glyphicon-thumbs-up{title: v.user.name}
+
+    - else
+      %h2 No restaurants - it's a draw
+.row
+  .col-md-6.col-xs-12
+    - if @game.selected_restaurants.any?
+      %h2 Selected Restaurants
+      %ul
+        - @game.selected_restaurants.each do |restaurant|
+          %li
+            %span
+              = restaurant.name
+  .col-md-6.col-xs-12
+    - if @game.eliminated_restaurants.any?
+      %h2 Eliminated Restaurants
+      %ul
+        - @game.eliminated_restaurants.each do |restaurant|
+          %li
+            %span
+              = restaurant.name
+              - restaurant.round_1_votes.each do |v|
+                %span.glyphicon.glyphicon-thumbs-down{title: v.user.name}
+
